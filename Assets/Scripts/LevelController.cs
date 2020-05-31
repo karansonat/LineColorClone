@@ -1,4 +1,5 @@
 ﻿using System;
+using Dreamteck.Splines;
 using UnityEngine;
 
 public class LevelController
@@ -14,6 +15,11 @@ public class LevelController
 
         var prefab = Resources.Load<GameObject>(LEVEL_PATH + GameController.Instance.Config.Level);
         _level = UnityEngine.Object.Instantiate(prefab);
+    }
+
+    public SplineComputer GetSplineComputer()
+    {
+        return _level.GetComponent<SplineComputer>();
     }
 
     private void UnloadLevel()

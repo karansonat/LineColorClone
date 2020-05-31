@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "GameConfig", menuName = "Config/Create New Game Config")]
 public class GameConfig : ScriptableObject
 {
-    private const int LEVEL_COUNT = 2;
+    private const int LEVEL_COUNT = 1;
 
     [SerializeField] private int _level;
     public int Level { get { return _level; } }
@@ -13,6 +13,9 @@ public class GameConfig : ScriptableObject
 
     [SerializeField] private int _avatar;
     public int Avatar { get { return _avatar; } }
+
+    [SerializeField] private float _maxPlayerSpeed;
+    public float MaxPlayerSpeed { get { return _maxPlayerSpeed; } }
 
     #region Public Methods
 

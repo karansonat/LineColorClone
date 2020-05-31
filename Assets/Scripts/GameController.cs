@@ -48,19 +48,23 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
+        #region Debug Methods
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Level Completed");
-            UIController.Instance.ShowEndGameUI(true);
-            LevelPassed.Invoke();
-            CoinAmountUpdated.Invoke(Config.Coin + 50);
+            GameOver(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("Failed");
-            UIController.Instance.ShowEndGameUI();
+            GameOver();
         }
+
+        #endregion //Debug Methods
+#endif
     }
 
     #endregion //Unity Methods
@@ -72,11 +76,14 @@ public class GameController : MonoBehaviour
         Config.Initialize();
         _levelController = new LevelController();
         _playerController = new PlayerController();
+
+        Physics.gravity = new Vector3(0, -50, 0);
     }
 
     private void InitializeGame()
     {
         _levelController.LoadLevel();
+        InitializePlayer();
         UIController.Instance.ShowMenuUI();
     }
 
@@ -84,6 +91,14 @@ public class GameController : MonoBehaviour
     {
         UIController.Instance.PlayButtonPressed += StartGame;
         UIController.Instance.RestartButtonPressed += RestartGame;
+        UIController.Instance.ClaimButtonPressed += InitializeGame;
+    }
+
+    private void InitializePlayer()
+    {
+        _playerController.Init(_levelController.GetSplineComputer());
+        FollowCamera.Instance.SetTarget(_playerController.GetPlayerTransform());
+        _playerController.GameOver += OnGameOver;
     }
 
     private void RestartGame()
@@ -94,6 +109,24 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         UIController.Instance.ShowInGameUI();
+        TouchController.Instance.EnableInput();
+    }
+
+    private void GameOver(bool levelPassed = false)
+    {
+        TouchController.Instance.DisableInput();
+        UIController.Instance.ShowEndGameUI(levelPassed);
+
+        if (levelPassed)
+        {
+            LevelPassed.Invoke();
+            CoinAmountUpdated.Invoke(Config.Coin + 50);
+        }
+    }
+
+    private void OnGameOver(bool levelPassed)
+    {
+        GameOver(levelPassed);
     }
 
     #endregion //Private Methods

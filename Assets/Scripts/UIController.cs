@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
 
     public static UIController Instance { get; private set; }
 
-    [SerializeField] private Button _buttonMove;
     [SerializeField] private Button _buttonPlay;
     [SerializeField] private Button _buttonRestart;
     [SerializeField] private Button _buttonSettings;
@@ -22,6 +21,7 @@ public class UIController : MonoBehaviour
 
     #region Events
 
+    public Action MoveButtonReleased;
     public Action PlayButtonPressed;
     public Action RestartButtonPressed;
     public Action SettingsButtonPressed;
@@ -91,7 +91,6 @@ public class UIController : MonoBehaviour
 
     public void ShowMenuUI()
     {
-        _buttonMove.gameObject.SetActive(false);
         _buttonPlay.gameObject.SetActive(true);
         _buttonRestart.gameObject.SetActive(false);
         _buttonSettings.gameObject.SetActive(true);
@@ -102,7 +101,6 @@ public class UIController : MonoBehaviour
 
     public void ShowInGameUI()
     {
-        _buttonMove.gameObject.SetActive(true);
         _buttonPlay.gameObject.SetActive(false);
         _buttonRestart.gameObject.SetActive(false);
         _buttonSettings.gameObject.SetActive(false);
@@ -113,7 +111,6 @@ public class UIController : MonoBehaviour
 
     public void ShowEndGameUI(bool levelPassed = false)
     {
-        _buttonMove.gameObject.SetActive(false);
         _buttonPlay.gameObject.SetActive(false);
         _buttonRestart.gameObject.SetActive(!levelPassed);
         _buttonSettings.gameObject.SetActive(false);
