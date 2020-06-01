@@ -6,6 +6,8 @@ public class FollowCamera : MonoBehaviour
 
     public static FollowCamera Instance { get; private set; }
 
+    private Animator _animator;
+
     [SerializeField] private Transform _target;
     public Vector3 Offset;
 
@@ -27,6 +29,8 @@ public class FollowCamera : MonoBehaviour
         }
 
         #endregion //Singleton
+
+        _animator = GetComponent<Animator>();
     }
 
     private void LateUpdate()
@@ -42,6 +46,13 @@ public class FollowCamera : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
+        _animator.ResetTrigger("LevelCompleted");
+        _animator.Play("Idle", -1, 0f);
+    }
+
+    public void StartLevelCompletedAnimation()
+    {
+        _animator.SetTrigger("LevelCompleted");
     }
 
     #endregion //Public Methods

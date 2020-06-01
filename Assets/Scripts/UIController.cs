@@ -109,7 +109,7 @@ public class UIController : MonoBehaviour
         _textEndGamePercentage.gameObject.SetActive(false);
     }
 
-    public void ShowEndGameUI(bool levelPassed = false)
+    public void ShowEndGameUI(bool levelPassed = false, int percentage = 100)
     {
         _buttonPlay.gameObject.SetActive(false);
         _buttonRestart.gameObject.SetActive(!levelPassed);
@@ -121,7 +121,12 @@ public class UIController : MonoBehaviour
         if (levelPassed)
             _textEndGamePercentage.text = "Level Completed!";
         else
-            _textEndGamePercentage.text = "%0 Completed";
+            _textEndGamePercentage.text = "%" + percentage + " Completed";
+    }
+
+    public void SetPercentage(double percentage)
+    {
+        _sliderPseudoLevel.value = (float)percentage;
     }
 
     #endregion //Public Methods

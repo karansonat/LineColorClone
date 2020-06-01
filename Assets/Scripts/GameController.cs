@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour
         }
 
         #endregion //Singleton
+
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
@@ -112,21 +114,22 @@ public class GameController : MonoBehaviour
         TouchController.Instance.EnableInput();
     }
 
-    private void GameOver(bool levelPassed = false)
+    private void GameOver(bool levelPassed = false, int percentage = 100)
     {
         TouchController.Instance.DisableInput();
-        UIController.Instance.ShowEndGameUI(levelPassed);
+        UIController.Instance.ShowEndGameUI(levelPassed, percentage);
 
         if (levelPassed)
         {
             LevelPassed.Invoke();
             CoinAmountUpdated.Invoke(Config.Coin + 50);
+            _levelController.OpenChest();
         }
     }
 
-    private void OnGameOver(bool levelPassed)
+    private void OnGameOver(bool levelPassed, int percentage)
     {
-        GameOver(levelPassed);
+        GameOver(levelPassed, percentage);
     }
 
     #endregion //Private Methods
